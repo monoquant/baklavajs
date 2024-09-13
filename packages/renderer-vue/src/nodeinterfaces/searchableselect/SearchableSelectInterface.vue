@@ -1,3 +1,4 @@
+<!-- src/nodeinterfaces/searchableselect/SearchableSelectInterface.vue -->
 <template>
     <div
         ref="el"
@@ -51,7 +52,8 @@
 import { onClickOutside } from "@vueuse/core";
 import { computed, defineComponent, ref } from "vue";
 import Arrow from "../../icons/ChevronDown.vue";
-import type { SelectInterface, SelectInterfaceItem } from "./SelectInterface";
+// Corrected import path to point to '../select/SelectInterface'
+import type { SelectInterface, SelectInterfaceItem } from "../select/SelectInterface";
 
 export default defineComponent({
     name: "SearchableSelectInterface",
@@ -84,7 +86,7 @@ export default defineComponent({
 
         // Compute the selected item based on the current value
         const selectedItem = computed(() =>
-            props.intf.items.find((v) =>
+            props.intf.items.find((v: SelectInterfaceItem<unknown>) =>
                 typeof v === "string" ? v === props.intf.value : v.value === props.intf.value,
             ),
         );
@@ -120,7 +122,7 @@ export default defineComponent({
                 return props.intf.items;
             }
             const query = searchQuery.value.toLowerCase();
-            return props.intf.items.filter((item) => {
+            return props.intf.items.filter((item: SelectInterfaceItem<unknown>) => {
                 if (typeof item === "string") {
                     return item.toLowerCase().includes(query);
                 } else if (item.text) {
@@ -151,3 +153,76 @@ export default defineComponent({
     },
 });
 </script>
+
+<style scoped>
+.baklava-select {
+    position: relative;
+    cursor: pointer;
+    /* Add your existing styles here */
+}
+
+.__selected {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Add your existing styles here */
+}
+
+.__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.__search {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.__search input {
+    width: 100%;
+    padding: 6px 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.item {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.item.--active {
+    background-color: #f0f0f0;
+}
+
+.item.--header {
+    font-weight: bold;
+    background-color: #fafafa;
+    border-bottom: 1px solid #eee;
+}
+
+.item.--no-results {
+    padding: 8px 12px;
+    color: #999;
+    text-align: center;
+}
+
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+    transition: all 0.3s ease;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+</style>

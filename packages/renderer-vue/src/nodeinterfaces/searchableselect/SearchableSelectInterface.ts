@@ -1,22 +1,24 @@
 import { type ComponentOptions, markRaw } from "vue";
 import { NodeInterface } from "@baklavajs/core";
-import SelectInterfaceComponent from "./SelectInterface.vue";
+import SearchableSelectInterfaceComponent from "./SearchableSelectInterface.vue";
+// import type { SelectInterfaceItem } from "../select/SelectInterface";
 
 export interface IAdvancedSelectInterfaceItem<V> {
     text: string;
     value: V;
 }
 
-export type SelectInterfaceItem<V> = string | IAdvancedSelectInterfaceItem<V>;
+export type SearchableSelectInterfaceItem<V> = string | IAdvancedSelectInterfaceItem<V>;
 
 export class SearchableSelectInterface<V = string> extends NodeInterface<V> {
-    component = markRaw(SelectInterfaceComponent) as ComponentOptions;
-    items: SelectInterfaceItem<V>[];
+    component: ComponentOptions;
+    items: SearchableSelectInterfaceItem<V>[];
 
-    constructor(name: string, value: V, items: SelectInterfaceItem<V>[]) {
+    constructor(name: string, value: V, items: SearchableSelectInterfaceItem<V>[]) {
         super(name, value);
+        this.component = markRaw(SearchableSelectInterfaceComponent) as ComponentOptions;
         this.items = items;
     }
 }
 
-export { SelectInterfaceComponent };
+export { SearchableSelectInterfaceComponent };
