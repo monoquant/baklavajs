@@ -2,12 +2,12 @@ import { type ComponentOptions, markRaw } from "vue";
 import { NodeInterface } from "@baklavajs/core";
 import SelectInterfaceComponent from "./SelectInterface.vue";
 
-export interface IAdvancedSelectInterfaceItem<V> {
+export interface IAdvancedSearchableSelectInterfaceItem<V> {
     text: string;
     value: V;
 }
 
-export type SelectInterfaceItem<V> = string | IAdvancedSelectInterfaceItem<V>;
+export type SelectInterfaceItem<V> = string | IAdvancedSearchableSelectInterfaceItem<V>;
 
 export class SelectInterface<V = string> extends NodeInterface<V> {
     component = markRaw(SelectInterfaceComponent) as ComponentOptions;
