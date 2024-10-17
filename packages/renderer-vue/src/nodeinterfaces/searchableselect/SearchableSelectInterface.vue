@@ -179,7 +179,9 @@ export default defineComponent({
     max-height: 300px;
     overflow-y: auto;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
+    -webkit-overflow-scrolling: touch; /* Add this line */
+    touch-action: pan-y; /* Allow vertical touch scrolling */
+  }
 
 .__search {
     padding: 8px;

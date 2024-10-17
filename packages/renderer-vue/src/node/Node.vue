@@ -98,7 +98,6 @@ const isResizing = ref(false);
 const showContextMenu = ref(false);
 const contextMenuItems = computed(() => {
     const items = [
-        { value: "rename", label: "Rename" },
         { value: "delete", label: "Delete" },
     ];
 
