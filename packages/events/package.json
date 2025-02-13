@@ -1,6 +1,6 @@
 {
     "name": "@baklavajs/events",
-    "version": "2.4.4",
+    "version": "2.5.0",
     "description": "Implementation of the Baklava event system. Mainly intended for internal use in the Baklava ecosystem",
     "author": "newcat <freddy.wagner@web.de>",
     "homepage": "https://github.com/newcat/baklavajs#readme",
@@ -28,6 +28,6 @@
         "url": "https://github.com/newcat/baklavajs/issues"
     },
     "devDependencies": {
-        "typescript": "^5.4.5"
+        "typescript": "^5.6.3"
     }
 }

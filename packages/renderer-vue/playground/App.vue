@@ -14,6 +14,8 @@
         <button @click="createSubgraph">Create Subgraph</button>
         <button @click="saveAndLoad">Save and Load</button>
         <button @click="changeSidebarWidth">SidebarWidth</button>
+        <button @click="clearHistory">Clear History</button>
+        <button @click="zoomToFitRandomNode">Zoom to Random Node</button>
     </div>
 </template>
 
@@ -149,6 +151,20 @@ const changeSidebarWidth = () => {
     baklavaView.settings.sidebar.width = Math.round(Math.random() * 500) + 300;
     baklavaView.settings.sidebar.resizable = !baklavaView.settings.sidebar.resizable;
 };
+
+const clearHistory = () => {
+    baklavaView.commandHandler.executeCommand<Commands.ClearHistoryCommand>(Commands.CLEAR_HISTORY_COMMAND);
+};
+
+const zoomToFitRandomNode = () => {
+    if (baklavaView.displayedGraph.nodes.length === 0) {
+        return;
+    }
+
+    const nodes = baklavaView.displayedGraph.nodes;
+    const node = nodes[Math.floor(Math.random() * nodes.length)];
+    baklavaView.commandHandler.executeCommand<Commands.ZoomToFitNodesCommand>(Commands.ZOOM_TO_FIT_NODES_COMMAND, true, [node]);
+}
 </script>
 
 <style>

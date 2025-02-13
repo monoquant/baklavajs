@@ -12,11 +12,13 @@ export const UNDO_COMMAND = "UNDO";
 export const REDO_COMMAND = "REDO";
 export const START_TRANSACTION_COMMAND = "START_TRANSACTION";
 export const COMMIT_TRANSACTION_COMMAND = "COMMIT_TRANSACTION";
+export const CLEAR_HISTORY_COMMAND = "CLEAR_HISTORY";
 
 export type UndoCommand = ICommand<void>;
 export type RedoCommand = ICommand<void>;
 export type StartTransactionCommand = ICommand<void>;
 export type CommitTransactionCommand = ICommand<void>;
+export type ClearHistoryCommand = ICommand<void>;
 
 export interface IHistory {
     maxSteps: number;
@@ -46,11 +48,12 @@ export function useHistory(graph: Ref<Graph>, commandHandler: ICommandHandler): 
             }
 
             steps.value.push(step);
-            currentIndex.value++;
 
             while (steps.value.length > maxSteps.value) {
                 steps.value.shift();
             }
+
+            currentIndex.value = steps.value.length - 1;
         }
     };
 
@@ -84,6 +87,11 @@ export function useHistory(graph: Ref<Graph>, commandHandler: ICommandHandler): 
         changeBySelf.value = true;
         steps.value[++currentIndex.value].redo(graph.value);
         changeBySelf.value = false;
+    };
+
+    const clear = () => {
+        steps.value = [];
+        currentIndex.value = -1;
     };
 
     watch(
@@ -129,6 +137,10 @@ export function useHistory(graph: Ref<Graph>, commandHandler: ICommandHandler): 
     commandHandler.registerCommand<CommitTransactionCommand>(COMMIT_TRANSACTION_COMMAND, {
         canExecute: () => activeTransaction.value,
         execute: commitTransaction,
+    });
+    commandHandler.registerCommand<ClearHistoryCommand>(CLEAR_HISTORY_COMMAND, {
+        canExecute: () => steps.value.length > 0,
+        execute: clear,
     });
 
     commandHandler.registerHotkey(["Control", "z"], UNDO_COMMAND);
