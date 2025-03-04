@@ -11,33 +11,40 @@
         <div v-if="viewModel.settings.nodes.resizable" class="__resize-handle" @mousedown="startResize" />
 
         <slot name="title">
-            <div class="__title" @pointerdown.self.stop="startDrag" @contextmenu.prevent="openContextMenu">
-                <template v-if="!renaming">
-                    <div class="__title-label">
-                        {{ node.title }}
-                    </div>
-                    <div class="__menu">
-                        <vertical-dots class="--clickable" @click="openContextMenu" />
-                        <context-menu
-                            v-model="showContextMenu"
-                            :x="0"
-                            :y="0"
-                            :items="contextMenuItems"
-                            @click="onContextMenuClick"
-                        />
-                    </div>
-                </template>
-                <input
-                    v-else
-                    ref="renameInputEl"
-                    v-model="tempName"
-                    type="text"
-                    class="baklava-input"
-                    placeholder="Node Name"
-                    @blur="doneRenaming"
-                    @keydown.enter="doneRenaming"
-                />
-            </div>
+          <div class="__title" @pointerdown.self.stop="startDrag" @contextmenu.prevent="openContextMenu">
+              <template v-if="!renaming">
+                  <div class="__title-label">
+                      <!-- If an icon is provided, show it -->
+                      <template v-if="(node as any).icon">
+                          <img :src="(node as any).icon" alt="Node Icon" class="h-5" @pointerdown.self.stop="startDrag" draggable="false"/>
+                      </template>
+                      <!-- Only show the title text if hideTitle is not true -->
+                      <template v-if="!(node as any).hideTitle">
+                          {{ node.title }}
+                      </template>
+                  </div>
+                  <div class="__menu">
+                      <vertical-dots class="--clickable" @click="openContextMenu" />
+                      <context-menu
+                          v-model="showContextMenu"
+                          :x="0"
+                          :y="0"
+                          :items="contextMenuItems"
+                          @click="onContextMenuClick"
+                      />
+                  </div>
+              </template>
+              <input
+                  v-else
+                  ref="renameInputEl"
+                  v-model="tempName"
+                  type="text"
+                  class="baklava-input"
+                  placeholder="Node Name"
+                  @blur="doneRenaming"
+                  @keydown.enter="doneRenaming"
+              />
+          </div>
         </slot>
 
         <slot name="content">

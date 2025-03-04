@@ -93,18 +93,20 @@ export class Editor implements IBaklavaEventEmitter, IBaklavaTapable {
      * @param type Actual type / constructor of the node
      * @param options Optionally specify a title and/or a category for this node
      */
-    public registerNodeType(type: AbstractNodeConstructor, options?: IRegisterNodeTypeOptions): void {
-        if (this.events.beforeRegisterNodeType.emit({ type, options }).prevented) {
-            return;
+        public registerNodeType(type: AbstractNodeConstructor, options?: IRegisterNodeTypeOptions): void {
+            if (this.events.beforeRegisterNodeType.emit({ type, options }).prevented) {
+                return;
+            }
+            const nodeInstance = new type();
+            this._nodeTypes.set(nodeInstance.type, {
+                type,
+                category: options?.category ?? "default",
+                title: options?.title ?? nodeInstance.title,
+                icon: options?.icon ?? nodeInstance.icon ?? "",          // default to empty string if undefined
+                hideTitle: options?.hideTitle ?? nodeInstance.hideTitle ?? false,  // default to false if undefined
+            });
+            this.events.registerNodeType.emit({ type, options });
         }
-        const nodeInstance = new type();
-        this._nodeTypes.set(nodeInstance.type, {
-            type,
-            category: options?.category ?? "default",
-            title: options?.title ?? nodeInstance.title,
-        });
-        this.events.registerNodeType.emit({ type, options });
-    }
 
     /**
      * Unregister an existing node type. Will also remove all the nodes of this type in all graphs.

@@ -9,13 +9,15 @@
                 :key="nt"
                 :type="nt"
                 :title="ni.title"
+                :icon="(ni as any).icon"
+                :hideTitle="(ni as any).hideTitle"
                 @pointerdown="onDragStart(nt, ni)"
             />
         </section>
     </div>
     <transition name="fade">
         <div v-if="draggedNode" class="baklava-dragged-node" :style="draggedNodeStyles">
-            <PaletteEntry :type="draggedNode.type" :title="draggedNode.nodeInformation.title" />
+            <PaletteEntry :type="draggedNode.type" :title="draggedNode.nodeInformation.title" :icon="draggedNode.nodeInformation.icon" :hideTitle="draggedNode.nodeInformation.hideTitle" />
         </div>
     </transition>
 </template>

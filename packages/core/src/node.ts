@@ -34,6 +34,9 @@ export interface INodeState<I, O> {
 
 export abstract class AbstractNode implements IBaklavaEventEmitter, IBaklavaTapable {
     protected _title = "";
+    public icon?: string;
+    public hideTitle?: boolean;  // New property to disable text title rendering
+
 
     /** Type of the node */
     public abstract readonly type: string;

@@ -37,6 +37,8 @@ export interface IDynamicNodeDefinition<I, O> {
     type: string;
     /** Default title when creating the node. If not specified, it is set to the nodeType */
     title?: string;
+    hideTitle?: boolean; // When true, the text title won't be rendered
+    icon?: string;  // <-- New property for the image path
     /** Inputs of the node */
     inputs?: InterfaceFactory<I>;
     /** Outputs of the node */
@@ -61,6 +63,8 @@ export function defineDynamicNode<I, O>(definition: IDynamicNodeDefinition<I, O>
         public inputs = {} as NodeInterfaceDefinition<Dynamic<I>>;
         public outputs = {} as NodeInterfaceDefinition<Dynamic<O>>;
         public calculate;
+        public icon?: string = definition.icon;
+        public hideTitle?: boolean = definition.hideTitle;
 
         private preventUpdate = false;
         private readonly staticInputKeys = Object.keys(definition.inputs ?? {});

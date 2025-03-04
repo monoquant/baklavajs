@@ -1,8 +1,13 @@
 <template>
     <div class="baklava-node --palette" :data-node-type="type">
         <div class="__title">
-            <div class="__title-label">
-                {{ title }}
+            <div class="__title-label flex items-center">
+                <template v-if="icon">
+                    <img :src="icon" alt="Node Icon" class="h-5" draggable="false"/>
+                </template>
+                <template v-if="!hideTitle">
+                    {{ title }}
+                </template>
             </div>
             <div v-if="hasContextMenu" class="__menu">
                 <vertical-dots class="--clickable" @pointerdown.stop.prevent @click.stop.prevent="openContextMenu" />
@@ -19,6 +24,7 @@
     </div>
 </template>
 
+
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
 import { GRAPH_NODE_TYPE_PREFIX } from "@baklavajs/core";
@@ -30,14 +36,23 @@ import { useGraph, useViewModel } from "../utility";
 export default defineComponent({
     components: { ContextMenu, VerticalDots },
     props: {
-        type: {
-            type: String,
-            required: true,
-        },
-        title: {
-            type: String,
-            required: true,
-        },
+      type: {
+        type: String,
+        required: true,
+      },
+      title: {
+        type: String,
+        required: true,
+      },
+      icon: {
+        type: String,
+        required: false,
+      },
+      hideTitle: {
+        type: Boolean,
+        required: false,
+        default: false,
+      },
     },
     setup(props) {
         const { viewModel } = useViewModel();
