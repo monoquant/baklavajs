@@ -19,6 +19,13 @@ declare module "@baklavajs/core/dist/node" {
     }
 }
 
+declare module "@baklavajs/core" {
+  export interface INodeTypeInformation {
+    icon?: string;
+    hideTitle?: boolean;
+  }
+}
+
 declare module "@baklavajs/core/dist/nodeInterface" {
     interface NodeInterface {
         displayInSidebar?: boolean;
